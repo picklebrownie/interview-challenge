@@ -1,0 +1,96 @@
+version: "1.0"
+services:
+
+  app:
+    build:
+      context: ./.devcontainer/
+      dockerfile: Dockerfile
+
+    volumes:
+      - ../..:/workspaces:cached
+      - devcontainer-bashhistory:/commandhistory
+
+    # Overrides default command so things don't shut down after the process ends.
+    command: sleep infinity
+
+    # Runs app on the same network as the database container, allows "forwardPorts" in devcontainer.json function.
+    network_mode: service:db
+
+    # Use "forwardPorts" in **devcontainer.json** to forward an app port locally. 
+    # (Adding the "ports" property to this file will not forward from a Codespace.)
+
+
+  nginx:
+    image: nginx:alpine
+    restart: unless-stopped
+    links: 
+     - php-8.1
+    ports:
+      - "80:80"
+    volumes:
+      - ./src/:/var/www/
+      - ./build/nginx/conf.d:/etc/nginx/conf.d
+    networks:
+      - php-network
+  
+  php-8.1:
+    build:
+      context: ./build
+      dockerfile: Dockerfile
+    expose: 
+      - 9003
+    extra_hosts:
+      - "host.docker.internal:host-gateway" # For xdebug connection
+    environment:
+      XDEBUG_MODE: develop,debug
+      XDEBUG_CONFIG:
+        idekey=VSCODE
+        client_host=host.docker.internal
+        remote_log=/var/log/xdebug.log
+        remote_port=9003
+        start_with_request=yes
+        # remote_autostart=1 is activated in php.ini
+    volumes:
+      - ./src/:/var/www/
+      - ./build/php/php.ini:/usr/local/etc/php/php.ini
+    networks:
+      - php-network
+
+  db:
+    image: mariadb # v10.5.8
+    restart: unless-stopped
+    environment:
+      - MARIADB_ROOT_PASSWORD=root
+    volumes:
+      - ./data/db:/var/lib/mysql
+    networks:
+      - php-network
+
+  dbadmin:
+    image: phpmyadmin/phpmyadmin
+    platform: linux/amd64
+    restart: unless-stopped
+    environment:
+      PMA_HOST: db
+      PMA_USER: root # Dev only
+      PMA_PASSWORD: root # Dev only
+      # allow large uploads 
+      UPLOAD_MAX_FILESIZE: 64M
+      POST_MAX_SIZE: 64M
+      MAX_EXECUTION_TIME: 300
+      MAX_INPUT_TIME: 300
+      UPLOAD_LIMIT: 64M
+    depends_on:
+      - db
+    networks:
+      - php-network
+
+networks:
+  php-network:
+    driver: bridge
+
+volumes:
+  data:
+    driver: local
+  devcontainer-bashhistory:
+  
