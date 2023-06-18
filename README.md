@@ -52,6 +52,13 @@ Password: hellothere
 
 Debugging is set up to run with PHPDebug extension in VSCode and Xdebug in the docker container. To debug, ensure the PHP Debug extension is installed in VSCode and click the debug button in the sidebar. Then click the green play button to start debugging.
 
+### Design Decisions
+
+- Database logic is separated out into its own files: Database is the base model which User and Vehicles extend.
+- The vehicle dashboard is found at `index.php` and the vehicle detail page is found at `vehicle.php`.
+- Header and footer are included in each page and can be found at `includes/header.php` and `includes/footer.php`.
+- The index's results filter is designed to use GET instead of POST so that the user can bookmark the page and share the link with others.
+
 ## TODO
 
 - [ ] Export database and put in build directory
@@ -95,3 +102,4 @@ Debugging is set up to run with PHPDebug extension in VSCode and Xdebug in the d
 - [ ] Search keywords instead of all fields in the filter results
 - [ ] Research and add semantic search for keywords
 - [ ] Implement a proper footer
+- [ ] Refactor Vehicle::addFilters($query) to avoid SQL injection
