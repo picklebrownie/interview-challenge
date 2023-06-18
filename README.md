@@ -74,14 +74,15 @@ Debugging is set up to run with PHPDebug extension in VSCode and Xdebug in the d
 - [ ] Implement search by price with [jQuery slider](http://ionden.com/a/plugins/ion.rangeSlider/)
 - [ ] Implement search by mileage with [jQuery slider](http://ionden.com/a/plugins/ion.rangeSlider/)
 - [x] Create an images table with foreign key to vehicle id, many images to one vehicle relationship. images table has two columns: id and image_url where image_url is points to the image location on the server
-- [ ] Add images to the vehicle detail page
+- [x] Add images to the vehicle detail page
 - [x] Add images to the index listings
-- [ ] Create a features table with foreign key to vehicle id, many features to one vehicle relationship. features table has two columns: id and feature
-- [ ] Display features on the vehicle detail page
+- [x] Create a features table with foreign key to vehicle id, many features to one vehicle relationship. features table has two columns: id and feature
+- [x] Display features on the vehicle detail page
 - [ ] Add stock number, interior color, engine, and mpg to the vehicle detail page
 - [ ] Use stock number to the index listings instead of the VIN
 - [ ] Add new fields to the vehicle detail page
-- [ ] Add image slider on vehicle details page
+- [x] Add image slider on vehicle details page
 - [ ] Add keywords column to the vehicles table
 - [ ] Search keywords instead of all fields in the filter results
 - [ ] Research and add semantic search for keywords
+- [ ] Implement a proper footer

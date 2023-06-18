@@ -194,7 +194,7 @@ class Vehicles extends Database
      * @param int $resultsPerPage
      * @return mysqli_result
      */
-    function getAll($offset, $resultsPerPage)
+    public function getAll($offset, $resultsPerPage)
     {
         $query = "SELECT vehicles.*, images.image_url FROM vehicles LEFT JOIN images ON vehicles.id = images.vehicle_id ";
         $query = $this->addFilters($query);
@@ -211,7 +211,7 @@ class Vehicles extends Database
      * 
      * @return int
      */
-    function getCount()
+    public function getCount()
     {
         $query = "SELECT COUNT(*) FROM vehicles ";
         $query = $this->addFilters($query);
@@ -227,7 +227,7 @@ class Vehicles extends Database
      * 
      * @return mysqli_result
      */
-    function getMakes()
+    public function getMakes()
     {
         $query = "SELECT DISTINCT make FROM vehicles ";
         $query = $this->addFilters($query, ['make', 'model']);
@@ -243,7 +243,7 @@ class Vehicles extends Database
      * 
      * @return mysqli_result
      */
-    function getModels()
+    public function getModels()
     {
         $query = "SELECT DISTINCT model FROM vehicles ";
         $query = $this->addFilters($query, ['model']);
@@ -259,9 +259,41 @@ class Vehicles extends Database
      * 
      * @param int $id
      */
-    function getVehicle($id)
+    public function getVehicle($id)
     {
         $query = "SELECT * FROM vehicles WHERE id = ?";
+
+        $stmt = $this->connection->prepare($query);
+        $stmt->bind_param("i", $id);
+        $stmt->execute();
+        return $stmt->get_result();
+    }
+
+    /**
+     * Gets all image_urls for a vehicle by id
+     * 
+     * @param int $id
+     * @return mysqli_result
+     */
+    public function getImages($id)
+    {
+        $query = "SELECT image_url FROM images WHERE vehicle_id = ?";
+
+        $stmt = $this->connection->prepare($query);
+        $stmt->bind_param("i", $id);
+        $stmt->execute();
+        return $stmt->get_result();
+    }
+
+    /**
+     * Get vehicle features by vehicle id
+     * 
+     * @param int $id
+     * @return mysqli_result
+     */
+    public function getFeatures($id)
+    {
+        $query = "SELECT description FROM features WHERE vehicle_id = ?";
 
         $stmt = $this->connection->prepare($query);
         $stmt->bind_param("i", $id);
