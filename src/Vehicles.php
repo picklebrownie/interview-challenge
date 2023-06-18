@@ -15,6 +15,7 @@ class Vehicles extends Database
     public string $filterColor;
     public string $filterYear;
     public string $filterCondition;
+    public string $filterKeywords;
 
     /**
      * Vehicles constructor.
@@ -24,6 +25,17 @@ class Vehicles extends Database
         parent::__construct();
     }
 
+    /**
+     * @param string $keywords
+     */
+    public function filterByKeywords($keywords)
+    {
+        $this->filterKeywords = $keywords;
+    }
+
+    /**
+     * @param string $condition
+     */
     public function filterByCondition($condition)
     {
         $this->filterCondition = $condition;
@@ -92,6 +104,36 @@ class Vehicles extends Database
             foreach ($clauses as $clause) {
                 $whereClause .= $whereClause == '' ? 'WHERE ' : 'AND ';
                 $whereClause .= $clause;
+            }
+        }
+
+        // capture any results that have the keywords in any of the fields
+        $keywordClauses = [];
+
+        if (isset($this->filterKeywords) && !in_array('keywords', $excludes)) {
+            $keywords = explode(' ', $this->filterKeywords);
+            foreach ($keywords as $keyword) {
+                array_push($keywordClauses, "model LIKE '%" . $keyword . "%' ");
+                array_push($keywordClauses, "year LIKE '%" . $keyword . "%' ");
+                array_push($keywordClauses, "make LIKE '%" . $keyword . "%' ");
+                array_push($keywordClauses, "car_condition LIKE '%" . $keyword . "%' ");
+                array_push($keywordClauses, "color LIKE '%" . $keyword . "%' ");
+            }
+        }
+
+        if (!empty($keywordClauses)) {
+            if ($whereClause != '') {
+                $whereClause .= 'AND (';
+            } else {
+                $whereClause .= 'WHERE (';
+            }
+            foreach ($keywordClauses as $key => $clause) {
+                $whereClause .= $clause;
+                if ($key !== array_key_last($keywordClauses)) {
+                    $whereClause .= 'OR ';
+                } else {
+                    $whereClause .= ') ';
+                }
             }
         }
 

@@ -4,6 +4,13 @@ function changeResultsPerPage(resultsPerPage) {
 	window.location.href = url.href;
 }
 
+function changeKeywords() {
+    var url = new URL(window.location.href);
+    keywords = $('#keywords').value;
+    url.searchParams.set('keywords', keywords);
+	window.location.href = url.href;
+}
+
 function changePage(page) {
     var url = new URL(window.location.href);
     url.searchParams.set('page', page);
@@ -50,5 +57,6 @@ function resetFilters(){
     url.searchParams.delete('model');
     url.searchParams.delete('make');
     url.searchParams.delete('color');
+    url.searchParams.delete('keywords');
 	window.location.href = url.href;
 }

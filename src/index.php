@@ -20,6 +20,10 @@ if (!$user->isLoggedIn()) {
 
 $vehicles = new Vehicles();
 
+// get keywords
+$keywords = isset($_GET['keywords']) ? $_GET['keywords'] : NULL;
+if ($keywords != NULL) $vehicles->filterByKeywords($keywords);
+
 // get condition 
 $condition = isset($_GET['condition']) ? $_GET['condition'] : NULL;
 if ($condition == 'Any') $condition = NULL;
@@ -149,12 +153,12 @@ $result = $vehicles->getAll($offset, $resultsPerPage);
         </div>
         <div class="row">
             <div class="col-lg-2 col-md-4">
-                <form class="" id="inventorySearchForm" name="inventorySearchForm" method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
+                <form class="" id="inventorySearchForm" name="inventorySearchForm">
                     <div class="form-group">
                         <label for="keywords" class="form-label fw-bold"> Search by Keywords: </label>
                         <div class="input-group">
-                            <input type="text" name="keywords" id="keywords" value="" class="form-control border-primary" placeholder="Search Vehicles">
-                            <button class="btn btn-primary" type="button">Search</button>
+                            <input type="text" name="keywords" id="keywords" value="<?= $keywords ?>" class="form-control border-primary" placeholder="Search Vehicles">
+                            <button class="btn btn-primary" type="button" onclick="changeKeywords()">Search</button>
                         </div>
                     </div>
                     <label for="description" class="form-label fw-bold pt-3"> Search by Filters: </label>
