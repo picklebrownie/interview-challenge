@@ -70,12 +70,12 @@ Debugging is set up to run with PHPDebug extension in VSCode and Xdebug in the d
 - [x] Implement filtering by condition, make, model, year, and color
 - [x] Implement filtering by keyword
 - [ ] Create the vehicle detail page
-- [ ] Find and assign images for the Subaru vehicles
+- [x] Find and assign images for the Subaru vehicles
 - [ ] Implement search by price with [jQuery slider](http://ionden.com/a/plugins/ion.rangeSlider/)
 - [ ] Implement search by mileage with [jQuery slider](http://ionden.com/a/plugins/ion.rangeSlider/)
-- [ ] Create an images table with foreign key to vehicle id, many images to one vehicle relationship. images table has two columns: id and image_url where image_url is points to the image location on the server
+- [x] Create an images table with foreign key to vehicle id, many images to one vehicle relationship. images table has two columns: id and image_url where image_url is points to the image location on the server
 - [ ] Add images to the vehicle detail page
-- [ ] Add images to the index listings
+- [x] Add images to the index listings
 - [ ] Create a features table with foreign key to vehicle id, many features to one vehicle relationship. features table has two columns: id and feature
 - [ ] Display features on the vehicle detail page
 - [ ] Add stock number, interior color, engine, and mpg to the vehicle detail page
