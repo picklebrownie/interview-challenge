@@ -7,7 +7,7 @@ The challenge is to recreate this [page](https://longofathens.com/gs-vehicle/lis
 - database must be MySQL or MariaDB
 
 ## Dev Environment
-PHP 8, MariaDB, Nginx, phpMyAdmin, Xdebug, Docker in a VSCode DevContainer
+PHP 8, MariaDB, Nginx, phpMyAdmin, Xdebug, Docker
 
 ## Get Started
 
