@@ -61,9 +61,8 @@ Debugging is set up to run with PHPDebug extension in VSCode and Xdebug in the d
 
 ## TODO
 
-- [ ] Export database and put in build directory
-- [ ] Update readme for how to import database
-
+- [x] Export database and put in build directory
+- [x] Update readme for how to import database
 - [x] Create development environment with docker
 - [x] Enable php debugger
 - [x] Create a database
@@ -85,7 +84,7 @@ Debugging is set up to run with PHPDebug extension in VSCode and Xdebug in the d
 - [x] Create the filter results form
 - [x] Implement filtering by condition, make, model, year, and color
 - [x] Implement filtering by keyword
-- [ ] Create the vehicle detail page
+- [x] Create the vehicle detail page
 - [x] Find and assign images for the Subaru vehicles
 - [ ] Implement search by price with [jQuery slider](http://ionden.com/a/plugins/ion.rangeSlider/)
 - [ ] Implement search by mileage with [jQuery slider](http://ionden.com/a/plugins/ion.rangeSlider/)
