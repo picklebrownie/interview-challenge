@@ -196,9 +196,9 @@ class Vehicles extends Database
      */
     function getAll($offset, $resultsPerPage)
     {
-        $query = "SELECT * FROM vehicles ";
+        $query = "SELECT vehicles.*, images.image_url FROM vehicles LEFT JOIN images ON vehicles.id = images.vehicle_id ";
         $query = $this->addFilters($query);
-        $query .= "LIMIT ?, ?";
+        $query .= "GROUP BY vehicles.id LIMIT ?, ?";
 
         $stmt = $this->connection->prepare($query);
         $stmt->bind_param("ii", $offset, $resultsPerPage);
@@ -250,6 +250,21 @@ class Vehicles extends Database
         $query .= "ORDER BY model ASC";
 
         $stmt = $this->connection->prepare($query);
+        $stmt->execute();
+        return $stmt->get_result();
+    }
+
+    /**
+     * Gets a vehicle by id
+     * 
+     * @param int $id
+     */
+    function getVehicle($id)
+    {
+        $query = "SELECT * FROM vehicles WHERE id = ?";
+
+        $stmt = $this->connection->prepare($query);
+        $stmt->bind_param("i", $id);
         $stmt->execute();
         return $stmt->get_result();
     }
