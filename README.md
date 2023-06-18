@@ -37,7 +37,16 @@ go to the import tab and select the file located at `./build/database.sql` and c
 
 ### Opening the site
 
-Open the site at [http://site.localhost](http://site.localhost).
+After importing the database, open the site at [http://site.localhost](http://site.localhost).
+
+You can login using the following credentials, or sign up for a new account.
+
+```
+Username: obiwan
+Password: hellothere
+```
+
+**NOTE**: The vehicles with make of Subaru have images. The other vehicles do not have images, and instead use a placeholder image. 
 
 ### Debugging
 
