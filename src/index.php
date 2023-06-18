@@ -105,7 +105,7 @@ $result = $vehicles->getAll($offset, $resultsPerPage);
 
 
 ?>
-<?php include_once 'header.php' ?>
+<?php include_once 'includes/header.php' ?>
 <main class="container-fluid">
     <div class="row">
         <div class="col-lg-2 col-md-4">
@@ -219,4 +219,4 @@ $result = $vehicles->getAll($offset, $resultsPerPage);
         </div>
     </div>
 </main>
-<?php include_once 'footer.php' ?>
+<?php include_once 'includes/footer.php' ?>

@@ -67,7 +67,7 @@ if (empty($features)) {
 
 ?>
 
-<?php include_once 'header.php' ?>
+<?php include_once 'includes/header.php' ?>
 
 <div class="container-fluid">
     <div class="row">
@@ -164,4 +164,4 @@ if (empty($features)) {
     </div>
 </div>
 
-<?php include_once 'footer.php' ?>
+<?php include_once 'includes/footer.php' ?>
