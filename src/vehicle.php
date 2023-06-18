@@ -4,8 +4,8 @@
 session_start();
 
 /************** INCLUDES **************/
-include_once 'User.php';
-require_once 'Vehicles.php';
+include_once 'models/User.php';
+require_once 'models/Vehicles.php';
 
 /************** USER LOGIC **************/
 

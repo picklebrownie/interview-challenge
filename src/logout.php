@@ -1,5 +1,5 @@
 <?php
 
-include_once('User.php');
+include_once('models/User.php');
 
 User::signOut();
