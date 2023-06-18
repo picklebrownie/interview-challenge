@@ -1,6 +1,6 @@
 FROM php:8.1-fpm-alpine
 
-RUN apk add --no-cache --update \
+RUN apk add --no-cache --update $PHPIZE_DEPS \
     # mysqli
 	&& docker-php-ext-install mysqli \
     && docker-php-ext-enable mysqli \
@@ -8,6 +8,7 @@ RUN apk add --no-cache --update \
     # xdebug
     && pecl install xdebug-3.1.1 \
     && docker-php-ext-enable xdebug \
+	&& rm -rf /tmp/* /var/cache/apk/* \
     && echo "=============================================" \
     && php -m
     
