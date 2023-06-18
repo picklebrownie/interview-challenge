@@ -120,4 +120,65 @@ class User extends Database
         }
         return "Oops! Something went wrong. Please try again later.";
     }
+
+    /**
+     * checks if a username is available
+     * 
+     * @return bool|string true if available, error message if not
+     */
+    function checkUsernameAvailable()
+    {
+        // Prepare a select statement
+        $sql = "SELECT id FROM users WHERE username = ?";
+
+        if ($stmt = $this->connection->prepare($sql)) {
+            // Bind variables to the prepared statement as parameters
+            $stmt->bind_param("s", $param_username);
+
+            // Set parameters
+            $param_username = trim($_POST["username"]);
+
+            // Attempt to execute the prepared statement
+            if ($stmt->execute()) {
+                // store result
+                $stmt->store_result();
+
+                if ($stmt->num_rows == 1) {
+                    return "This username is already taken.";
+                } else {
+                    $this->username = trim($_POST["username"]);
+                }
+            } else {
+                return "Oops! Something went wrong. Please try again later.";
+            }
+        }
+    }
+
+    /**
+     * creates a new user
+     * @param string $username
+     * @param string $password
+     */
+    function create($username, $password)
+    {
+        // Prepare an insert statement
+        $sql = "INSERT INTO users (username, password) VALUES (?, ?)";
+
+        if ($stmt = $this->connection->prepare($sql)) {
+            // Bind variables to the prepared statement as parameters
+            $stmt->bind_param("ss", $param_username, $param_password);
+
+            // Set parameters
+            $param_username = $username;
+            $param_password = password_hash($password, PASSWORD_DEFAULT); // Creates a password hash
+
+            // Attempt to execute the prepared statement
+            if ($stmt->execute()) {
+                // Redirect to login page
+                header("location: index.php");
+            } else {
+                return "Oops! Something went wrong. Please try again.";
+            }
+        }
+    }
 }

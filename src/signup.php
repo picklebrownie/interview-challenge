@@ -1,6 +1,16 @@
 <?php
-// Include config file
-require_once "config.php";
+
+//start session
+session_start();
+
+include_once('User.php');
+
+$user = new User();
+
+if ($user->isLoggedIn()) {
+    header("location: index.php");
+    exit;
+}
 
 // Define variables and initialize with empty values
 $username = $password = $confirm_password = "";
@@ -16,33 +26,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $username_err = "Username can only contain letters, numbers, and underscores.";
     } else {
         // check if the username is available
-
-        // Prepare a select statement
-        $sql = "SELECT id FROM users WHERE username = ?";
-
-        if ($stmt = $mysqli->prepare($sql)) {
-            // Bind variables to the prepared statement as parameters
-            $stmt->bind_param("s", $param_username);
-
-            // Set parameters
-            $param_username = trim($_POST["username"]);
-
-            // Attempt to execute the prepared statement
-            if ($stmt->execute()) {
-                // store result
-                $stmt->store_result();
-
-                if ($stmt->num_rows == 1) {
-                    $username_err = "This username is already taken.";
-                } else {
-                    $username = trim($_POST["username"]);
-                }
-            } else {
-                echo "Oops! Something went wrong. Please try again later.";
-            }
-
-            // Close statement
-            $stmt->close();
+        $result = $user->checkUsernameAvailable(trim($_POST["username"]));
+        if ($result) {
+            $username_err = $result;
+        } else {
+            $username = $user->username;
         }
     }
 
@@ -50,7 +38,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (empty(trim($_POST["password"]))) {
         $password_err = "Please enter a password.";
     } elseif (strlen(trim($_POST["password"])) < 6) {
-        $password_err = "Password must have atleast 6 characters.";
+        $password_err = "Password must have at least 6 characters.";
     } else {
         $password = trim($_POST["password"]);
     }
@@ -67,33 +55,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // Check input errors before inserting in database
     if (empty($username_err) && empty($password_err) && empty($confirm_password_err)) {
-
-        // Prepare an insert statement
-        $sql = "INSERT INTO users (username, password) VALUES (?, ?)";
-
-        if ($stmt = $mysqli->prepare($sql)) {
-            // Bind variables to the prepared statement as parameters
-            $stmt->bind_param("ss", $param_username, $param_password);
-
-            // Set parameters
-            $param_username = $username;
-            $param_password = password_hash($password, PASSWORD_DEFAULT); // Creates a password hash
-
-            // Attempt to execute the prepared statement
-            if ($stmt->execute()) {
-                // Redirect to login page
-                header("location: index.php");
-            } else {
-                echo "Oops! Something went wrong. Please try again.";
-            }
-
-            // Close statement
-            $stmt->close();
+        $result = $user->create($username, $password);
+        if ($result) {
+            echo $result;
         }
     }
-
-    // Close connection
-    $mysqli->close();
 }
 ?>
 
